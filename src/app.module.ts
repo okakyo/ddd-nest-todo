@@ -3,17 +3,20 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { TodoModule } from './todo/todo.module';
+import { join } from 'path';
 
 @Module({
   imports: [
     TodoModule,
     TypeOrmModule.forRoot({
-      type: 'mariadb',
+      type: 'postgres',
       host: 'localhost',
+      port: 5432,
       username: 'user',
       password: 'password',
-      port: 18400,
-      database: 'test',
+      database: 'dev',
+      entities: [join(__dirname + '/**/infra/entities/*.entity{.ts,.js}')],
+      synchronize: true,
     }),
   ],
   controllers: [AppController],
